@@ -1,14 +1,14 @@
 # AlphaGrowth.fun is a Podcast Archive // NFT Minter
 
+AlphaGrowth.Fun is a podcast which explores paths of growth for DeFi Protocols, Infrastructure & Chains.
+
 Podcasts are stored on [BuzzSprout](https://www.buzzsprout.com/).
 
-Each Episode has artwork which is thematically associated with the guest of the episode. Artwork is created by leading creatives on 𝕏, and then minted on a Blockchain which best represents the guests for that Episode.
+Each Podcast features artwork by leading creatives on 𝕏, inspired by the branding of the guests.
 
-The Arbitrum Podcast, is minted on Arbitrum.
+[An NFT Minting Contract](https://github.com/rootdraws/podcast-nft) is deployed for each episode, just for fun.
 
 The Artwork, and the Episodes themselves are stored on Arweave.
-
-When each episode is published, a limited edition is released just for fun.
 
 All sales go to directly to the wallet of the artist.
 

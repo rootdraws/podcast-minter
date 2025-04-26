@@ -10,11 +10,18 @@ import {
   darkTheme,
 } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { WagmiProvider, createConfig, http, useAccount } from 'wagmi';
 import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 
 // WalletConnect Project ID - used for connecting to various wallets
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'c4658e5f5c3f16c35e6c6f5f8c4c7c51';
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
+console.log('WalletConnect Project ID:', projectId);
+
+if (!projectId) {
+  console.error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set in environment variables');
+  throw new Error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set');
+}
 
 // Configure default wallets
 const { wallets } = getDefaultWallets({
@@ -42,12 +49,26 @@ const config = createConfig({
 // Initialize React Query client for data fetching
 const queryClient = new QueryClient();
 
+// Authentication wrapper component
+function AuthWrapper({ children }: { children: React.ReactNode }) {
+  const { isConnecting } = useAccount();
+
+  if (isConnecting) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
+  return <>{children}</>;
+}
+
 // Main Web3 Provider component
 // Wraps the application with necessary Web3 providers
 export function Web3Provider({ children }: { children: React.ReactNode }) {
-  // Handle client-side mounting to prevent hydration issues
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <WagmiProvider config={config}>
@@ -58,7 +79,9 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
             accentColorForeground: 'white',
           })}
         >
-          {mounted && children}
+          <AuthWrapper>
+            {children}
+          </AuthWrapper>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
