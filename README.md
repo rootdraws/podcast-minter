@@ -2,13 +2,14 @@
 
 AlphaGrowth.Fun is a podcast which explores paths of growth for DeFi Protocols, Infrastructure & Chains.
 
-Podcasts are stored on [BuzzSprout](https://www.buzzsprout.com/).
-
 Each Podcast features artwork by leading creatives on 𝕏, inspired by the branding of the guests.
 
-[An NFT Minting Contract](https://github.com/rootdraws/podcast-nft) is deployed for each episode, just for fun.
-
-The Artwork, and the Episodes themselves are stored on Arweave.
+* Upload Audio to [BuzzSprout](https://www.buzzsprout.com/).
+* Deploy [NFT Minting Contract](https://github.com/rootdraws/podcast-nft) is for each episode, setting Artist Address.
+* Upload Artwork + Episode to Arweave.
+* Update Frontend: Set CONTRACT_ADDRESS to NFT Contract for that Campaign.
+* Update Frontend: MINT Button ARG to include TokenURI Storage.
+* Update Frontend: Art // Artist Information // Twitter Profile Icon // Link.
 
 All sales go to directly to the wallet of the artist.
 

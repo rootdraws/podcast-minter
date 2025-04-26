@@ -47,6 +47,13 @@ const abi = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "PRICE",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
   }
 ];
 
@@ -76,6 +83,13 @@ export default function Home() {
     address: CONTRACT_ADDRESS,
     abi,
     functionName: 'currentSupply',
+  })
+
+  // Fetch price from contract
+  const { data: price } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi,
+    functionName: 'PRICE',
   })
 
   // Start the sale
@@ -226,7 +240,7 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
                   <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">PRICE</span>
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">0.01 ETH</span>
+                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">{price ? `${Number(price) / 1e18} ETH` : '...'}</span>
                 </div>
 
                 <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
@@ -268,7 +282,7 @@ export default function Home() {
                 abi,
                 functionName: 'mint',
                 args: ["ipfs://placeholder-token-uri"],
-                value: parseEther('0.01'),
+                value: typeof price === 'bigint' ? price : (typeof price === 'string' || typeof price === 'number') ? BigInt(price) : undefined,
               })}
               disabled={!isStarted || isMinting || timeRemaining === 0}
               className="relative inline-flex items-center justify-center w-64 bg-[#e8f4ff] text-[#001f3f] rounded-lg h-14 font-['MEK-Mono'] text-lg tracking-widest border border-[#00a8ff]/30 border border-solid transition-colors duration-200 hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc]"
