@@ -36,12 +36,19 @@ const connectors = connectorsForWallets(wallets, {
 });
 
 // Create the Wagmi configuration
+const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+
+if (!alchemyApiKey) {
+  console.error('NEXT_PUBLIC_ALCHEMY_ID is not set in environment variables');
+  throw new Error('NEXT_PUBLIC_ALCHEMY_ID is not set');
+}
+
 const config = createConfig({
   chains: [arbitrum, mainnet, sepolia],
   transports: {
-    [arbitrum.id]: http(),
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+    [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+    [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+    [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
   },
   connectors,
 });
