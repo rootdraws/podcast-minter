@@ -54,28 +54,29 @@ export default function Home() {
         <div className="space-y-2">
           <button className="w-full" onClick={togglePlay}>
             <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
-              <span className="text-sm font-light tracking-wider">Episode I</span>
+              <span className="text-sm font-light tracking-wider">EP.1 Redstone OEV</span>
               <div
                 className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
               >
                 {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                <span className="sr-only">{isPlaying ? "Pause Episode I" : "Play Episode I"}</span>
+                <span className="sr-only">{isPlaying ? "Pause EP.1 Redstone OEV" : "Play EP.1 Redstone OEV"}</span>
               </div>
             </div>
           </button>
 
           <button className="w-full">
             <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
-              <span className="text-sm font-light tracking-wider">Episode II</span>
+              <span className="text-sm font-light tracking-wider">EP.2 Arbitrum DRIP</span>
               <div
                 className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
               >
                 <Play className="h-4 w-4" />
-                <span className="sr-only">Play Episode II</span>
+                <span className="sr-only">Play EP.2 Arbitrum DRIP</span>
               </div>
             </div>
           </button>
 
+          {/* Episode III - Commented out
           <button className="w-full">
             <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
               <span className="text-sm font-light tracking-wider">Episode III</span>
@@ -87,6 +88,7 @@ export default function Home() {
               </div>
             </div>
           </button>
+          */}
         </div>
 
         {/* Social Links */}
