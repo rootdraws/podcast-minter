@@ -1,11 +1,31 @@
+'use client'
+
 // Main Page Component
 // This file defines the layout and structure of the NFT minting interface
 import Image from "next/image"
-import { Play, Github } from "lucide-react"
+import { Play, Github, Pause } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useState, useRef } from "react"
 
 export default function Home() {
+  // Audio state management
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const togglePlay = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('https://www.buzzsprout.com/2490108/episodes/17046293-test-pod.mp3')
+    }
+    
+    if (isPlaying) {
+      audioRef.current.pause()
+    } else {
+      audioRef.current.play()
+    }
+    setIsPlaying(!isPlaying)
+  }
+
   return (
     // Main container with background color
     <div className="flex min-h-screen bg-[#e8f4ff]">
@@ -32,14 +52,14 @@ export default function Home() {
         {/* Episode List */}
         {/* Each episode has a play button and hover effects */}
         <div className="space-y-2">
-          <button className="w-full">
+          <button className="w-full" onClick={togglePlay}>
             <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
               <span className="text-sm font-light tracking-wider">Episode I</span>
               <div
                 className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
               >
-                <Play className="h-4 w-4" />
-                <span className="sr-only">Play Episode I</span>
+                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                <span className="sr-only">{isPlaying ? "Pause Episode I" : "Play Episode I"}</span>
               </div>
             </div>
           </button>

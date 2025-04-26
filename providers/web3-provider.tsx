@@ -18,14 +18,24 @@ import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 // Falls back to a test ID if environment variable is not set
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'c4658e5f5c3f16c35e6c6f5f8c4c7c51';
 
-// Configure default wallets (MetaMask, WalletConnect, etc.)
+// Configure default wallets
 const { wallets } = getDefaultWallets({
   appName: 'Podcast NFT Minter',
   projectId,
 });
 
 // Set up connectors for the wallets
-const connectors = connectorsForWallets(wallets, {
+const connectors = connectorsForWallets([
+  ...wallets,
+  {
+    groupName: 'Other',
+    wallets: [
+      argentWallet,
+      trustWallet,
+      ledgerWallet,
+    ],
+  },
+], {
   appName: 'Podcast NFT Minter',
   projectId,
 });
