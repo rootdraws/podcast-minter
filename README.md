@@ -1,6 +1,16 @@
-# Podcast NFT Minter
+# AlphaGrowth.fun is a Podcast Archive // NFT Minter
 
-A Next.js application for minting limited edition podcast NFTs on Arbitrum.
+Podcasts are stored on [BuzzSprout](https://www.buzzsprout.com/).
+
+Each Episode has artwork which is thematically associated with the guest of the episode. Artwork is created by leading creatives on 𝕏, and then minted on a Blockchain which best represents the guests for that Episode.
+
+The Arbitrum Podcast, is minted on Arbitrum.
+
+The Artwork, and the Episodes themselves are stored on Arweave.
+
+When each episode is published, a limited edition is released just for fun.
+
+All sales go to directly to the wallet of the artist.
 
 ## Quick Start
 

@@ -9,13 +9,11 @@ import {
   connectorsForWallets,
   darkTheme,
 } from '@rainbow-me/rainbowkit';
-import { argentWallet, trustWallet, ledgerWallet } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 
 // WalletConnect Project ID - used for connecting to various wallets
-// Falls back to a test ID if environment variable is not set
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'c4658e5f5c3f16c35e6c6f5f8c4c7c51';
 
 // Configure default wallets
@@ -25,26 +23,12 @@ const { wallets } = getDefaultWallets({
 });
 
 // Set up connectors for the wallets
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      argentWallet,
-      trustWallet,
-      ledgerWallet,
-    ],
-  },
-], {
+const connectors = connectorsForWallets(wallets, {
   appName: 'Podcast NFT Minter',
   projectId,
 });
 
 // Create the Wagmi configuration
-// This includes:
-// - Supported chains (Arbitrum, Mainnet, Sepolia)
-// - HTTP transports for each chain
-// - Wallet connectors
 const config = createConfig({
   chains: [arbitrum, mainnet, sepolia],
   transports: {

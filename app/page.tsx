@@ -7,6 +7,7 @@ import { Play, Github, Pause } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useRef } from "react"
+import Script from 'next/script'
 
 export default function Home() {
   // Audio state management
@@ -37,58 +38,25 @@ export default function Home() {
 
       {/* Side Panel */}
       {/* Contains logo, episode list, and social links */}
-      <div className="w-64 border-r border-[#00a8ff]/20 bg-white text-[#001f3f] p-6 hidden md:block">
+      <div className="w-[400px] border-r border-[#00a8ff]/20 bg-white text-[#001f3f] p-4 hidden md:block">
         {/* Logo Section */}
-        <div className="flex flex-col items-center mb-10">
+        <div className="flex flex-col items-start mb-6">
           <Image
             src="/1.png"
             alt="Logo"
             width={180}
             height={180}
-            className="mb-6"
+            className="mb-4"
           />
         </div>
 
-        {/* Episode List */}
-        {/* Each episode has a play button and hover effects */}
-        <div className="space-y-2">
-          <button className="w-full" onClick={togglePlay}>
-            <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
-              <span className="text-sm font-light tracking-wider">EP.1 Redstone OEV</span>
-              <div
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
-              >
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                <span className="sr-only">{isPlaying ? "Pause EP.1 Redstone OEV" : "Play EP.1 Redstone OEV"}</span>
-              </div>
-            </div>
-          </button>
-
-          <button className="w-full">
-            <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
-              <span className="text-sm font-light tracking-wider">EP.2 Arbitrum DRIP</span>
-              <div
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
-              >
-                <Play className="h-4 w-4" />
-                <span className="sr-only">Play EP.2 Arbitrum DRIP</span>
-              </div>
-            </div>
-          </button>
-
-          {/* Episode III - Commented out
-          <button className="w-full">
-            <div className="flex items-center justify-between border border-[#001f3f]/20 rounded-lg px-3 py-1 bg-transparent hover:bg-[#00a8ff]/5 hover:border-[#00a8ff] transition-all duration-200 w-full">
-              <span className="text-sm font-light tracking-wider">Episode III</span>
-              <div
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-transparent text-[#001f3f] group-hover:bg-[#00a8ff] group-hover:text-white transition-all duration-200"
-              >
-                <Play className="h-4 w-4" />
-                <span className="sr-only">Play Episode III</span>
-              </div>
-            </div>
-          </button>
-          */}
+        {/* Buzzsprout Player */}
+        <div className="max-w-[350px] mx-auto">
+          <div id='buzzsprout-large-player'></div>
+          <Script
+            src='https://www.buzzsprout.com/2490108.js?container_id=buzzsprout-large-player&player=large'
+            strategy="afterInteractive"
+          />
         </div>
 
         {/* Social Links */}
@@ -112,21 +80,23 @@ export default function Home() {
       {/* Main Content Area */}
       {/* Contains NFT preview and minting information */}
       <div className="flex-1 p-6 md:p-12 flex flex-col items-center justify-center">
-        <div className="max-w-2xl w-full mx-auto">
+        <div className="w-full max-w-4xl mx-auto">
           {/* Title */}
           <div className="text-center mb-6">
             <h1 className="text-3xl font-light tracking-widest text-[#001f3f] font-['MEK-Mono']">LIMITED EDITION</h1>
           </div>
 
           {/* NFT Preview */}
-          <div className="border border-[#00a8ff]/30 rounded-lg overflow-hidden mb-8 aspect-[16/9] w-full bg-white">
-            <Image
-              src="/art.gif"
-              alt="NFT Art Preview"
-              width={600}
-              height={338}
-              className="w-full h-full object-cover"
-            />
+          <div className="border border-[#00a8ff]/30 rounded-lg overflow-hidden mb-8 w-full bg-white">
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <Image
+                src="/art.gif"
+                alt="NFT Art Preview"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
           </div>
 
           {/* Minting Information */}
