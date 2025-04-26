@@ -16,11 +16,14 @@ import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 // WalletConnect Project ID - used for connecting to various wallets
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
-console.log('WalletConnect Project ID:', projectId);
-
 if (!projectId) {
   console.error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set in environment variables');
   throw new Error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set');
+}
+
+// Only log the project ID in development
+if (process.env.NODE_ENV === 'development') {
+  console.log('WalletConnect Project ID:', projectId);
 }
 
 // Configure default wallets
