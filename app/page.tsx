@@ -12,7 +12,7 @@ import { useContractRead, useWriteContract } from 'wagmi'
 import { parseEther } from 'viem';
 
 // Contract Address
-const CONTRACT_ADDRESS = '0x000000000000000000000000000000000000dEaD'; 
+const CONTRACT_ADDRESS = '0x0D70EDB990D452787c77a7068ee4B41014331c2F'; 
 
 // Contract ABI
 const abi = [
