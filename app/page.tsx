@@ -8,73 +8,112 @@ import { Button } from "@/components/ui/button"
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useRef, useEffect } from "react"
 import Script from 'next/script'
-import { useBlockNumber, useContractRead, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { useContractRead, useWriteContract } from 'wagmi'
+import { parseEther } from 'viem';
+
+const CONTRACT_ADDRESS = '0x000000000000000000000000000000000000dEaD'; // <-- Replace with your actual deployed address
+const abi = [
+  {
+    "inputs": [],
+    "name": "saleStart",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "saleEnd",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "currentSupply",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "tokenURI", "type": "string" }],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "start",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
 
 export default function Home() {
   // Audio state management
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const [blocksRemaining, setBlocksRemaining] = useState(43200)
+
+  // Sale window state
+  const [timeRemaining, setTimeRemaining] = useState(0)
   const [isStarted, setIsStarted] = useState(false)
-  
-  // Get current block number
-  const { data: currentBlock } = useBlockNumber({
-    watch: true,
-    chainId: 42161 // Arbitrum One
+
+  // Fetch saleStart and saleEnd
+  const { data: saleStart } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi,
+    functionName: 'saleStart',
+  })
+  const { data: saleEnd } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi,
+    functionName: 'saleEnd',
   })
 
-  // Get contract's start block
-  const { data: startBlock } = useContractRead({
-    address: '0x0000000000000000000000000000000000000000' as `0x${string}`, // Replace with your contract address
-    abi: [
-      {
-        "inputs": [],
-        "name": "startBlock",
-        "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "start",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }
-    ],
-    functionName: 'startBlock',
+  // Fetch currentSupply
+  const { data: currentSupply } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi,
+    functionName: 'currentSupply',
   })
 
-  // Start the countdown
-  const { write: startMint, isLoading: isStarting } = useContractWrite({
-    address: '0x0000000000000000000000000000000000000000' as `0x${string}`, // Replace with your contract address
-    abi: [
-      {
-        "inputs": [],
-        "name": "start",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }
-    ],
-    functionName: 'start',
-  })
+  // Start the sale
+  const { writeContract: startMint, isPending: isStarting } = useWriteContract();
 
+  // Mint NFT
+  const { writeContract: mint, isPending: isMinting } = useWriteContract();
+
+  // Countdown logic
   useEffect(() => {
-    if (currentBlock && startBlock) {
-      const totalBlocks = 43200
-      const blocksPassed = Number(currentBlock) - Number(startBlock)
-      const remaining = Math.max(0, totalBlocks - blocksPassed)
-      setBlocksRemaining(remaining)
-      setIsStarted(blocksPassed > 0)
+    let interval: NodeJS.Timeout | undefined;
+    if (saleStart && saleEnd) {
+      const update = () => {
+        const now = Math.floor(Date.now() / 1000)
+        const remaining = Math.max(0, Number(saleEnd) - now)
+        setTimeRemaining(remaining)
+        setIsStarted(Number(saleStart) > 0 && now >= Number(saleStart) && now <= Number(saleEnd))
+      }
+      update()
+      interval = setInterval(update, 1000)
     }
-  }, [currentBlock, startBlock])
+    return () => interval && clearInterval(interval)
+  }, [saleStart, saleEnd])
+
+  // Format seconds to HH:MM:SS
+  function formatTime(seconds: number) {
+    const h = Math.floor(seconds / 3600)
+    const m = Math.floor((seconds % 3600) / 60)
+    const s = seconds % 60
+    return `${h.toString().padStart(2, '0')}:${m
+      .toString()
+      .padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  }
 
   const togglePlay = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio('https://www.buzzsprout.com/2490108/episodes/17046293-test-pod.mp3')
     }
-    
     if (isPlaying) {
       audioRef.current.pause()
     } else {
@@ -192,22 +231,30 @@ export default function Home() {
 
                 <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
                   <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">TIME REMAINING</span>
-                  {isStarted ? (
-                    <span className="text-base font-['MEK-Mono'] text-[#001f3f]">{blocksRemaining.toLocaleString()} BLOCKS</span>
-                  ) : (
+                  {saleStart === undefined ? (
+                    <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">Sale Not Started.</span>
+                  ) : Number(saleStart) === 0 ? (
                     <button
-                      onClick={() => startMint?.()}
+                      onClick={() => startMint({
+                        address: CONTRACT_ADDRESS,
+                        abi,
+                        functionName: 'start',
+                      })}
                       disabled={isStarting}
                       className="text-base font-['MEK-Mono'] text-[#0077cc] hover:underline disabled:opacity-50"
                     >
                       {isStarting ? 'STARTING...' : 'START MINT'}
                     </button>
+                  ) : (
+                    <span className="text-base font-['MEK-Mono'] text-[#001f3f]">
+                      {timeRemaining > 0 ? formatTime(timeRemaining) : 'Sale Ended'}
+                    </span>
                   )}
                 </div>
 
                 <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
                   <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">TOTAL MINTED</span>
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">0</span>
+                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">{currentSupply?.toString() || 0}</span>
                 </div>
               </div>
             </div>
@@ -216,9 +263,17 @@ export default function Home() {
           {/* Mint Button */}
           <div className="flex justify-center">
             <button
-              className="relative inline-flex items-center justify-center w-64 bg-[#e8f4ff] text-[#001f3f] rounded-lg h-14 font-['MEK-Mono'] text-lg tracking-widest border border-[#00a8ff]/20 transition-colors duration-200 hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc]"
+              onClick={() => mint({
+                address: CONTRACT_ADDRESS,
+                abi,
+                functionName: 'mint',
+                args: ["ipfs://placeholder-token-uri"],
+                value: parseEther('0.01'),
+              })}
+              disabled={!isStarted || isMinting || timeRemaining === 0}
+              className="relative inline-flex items-center justify-center w-64 bg-[#e8f4ff] text-[#001f3f] rounded-lg h-14 font-['MEK-Mono'] text-lg tracking-widest border border-[#00a8ff]/30 border border-solid transition-colors duration-200 hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc]"
             >
-              MINT
+              {isMinting ? 'Minting...' : 'MINT'}
             </button>
           </div>
         </div>
