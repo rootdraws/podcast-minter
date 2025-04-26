@@ -11,7 +11,10 @@ import Script from 'next/script'
 import { useContractRead, useWriteContract } from 'wagmi'
 import { parseEther } from 'viem';
 
-const CONTRACT_ADDRESS = '0x000000000000000000000000000000000000dEaD'; // <-- Replace with your actual deployed address
+// Contract Address
+const CONTRACT_ADDRESS = '0x000000000000000000000000000000000000dEaD'; 
+
+// Contract ABI
 const abi = [
   {
     "inputs": [],
@@ -281,7 +284,7 @@ export default function Home() {
                 address: CONTRACT_ADDRESS,
                 abi,
                 functionName: 'mint',
-                args: ["ipfs://placeholder-token-uri"],
+                args: ["ipfs://placeholder-token-uri"], // Replace with Token URI from Arweave for each NFT
                 value: typeof price === 'bigint' ? price : (typeof price === 'string' || typeof price === 'number') ? BigInt(price) : undefined,
               })}
               disabled={!isStarted || isMinting || timeRemaining === 0}
