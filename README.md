@@ -16,3 +16,8 @@ Process for Each Mint:
 All sales go to directly to the wallet of the artist.
 
 <3
+
+Notes:
+
+* WalletConnect [Project ID](https://cloud.reown.com/)
+* [Alchemy API](https://dashboard.alchemy.com/)

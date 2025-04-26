@@ -1,18 +1,13 @@
 'use client'
 
-// Main Page Component
-// This file defines the layout and structure of the NFT minting interface
+// Main Page
 import Image from "next/image"
-import { Play, Github, Pause } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Github } from "lucide-react"
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useRef, useEffect } from "react"
 import Script from 'next/script'
-import { useContractRead, useWriteContract } from 'wagmi'
-import { parseEther } from 'viem';
-
-// Contract Address
-const CONTRACT_ADDRESS = '0x0D70EDB990D452787c77a7068ee4B41014331c2F'; 
+import { useReadContract, useWriteContract } from 'wagmi'
+import { CONTRACT_ADDRESS, TOKEN_URI } from '@/config/contract';
 
 // Contract ABI
 const abi = [
@@ -70,26 +65,26 @@ export default function Home() {
   const [isStarted, setIsStarted] = useState(false)
 
   // Fetch saleStart and saleEnd
-  const { data: saleStart } = useContractRead({
+  const { data: saleStart } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi,
     functionName: 'saleStart',
   })
-  const { data: saleEnd } = useContractRead({
+  const { data: saleEnd } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi,
     functionName: 'saleEnd',
   })
 
   // Fetch currentSupply
-  const { data: currentSupply } = useContractRead({
+  const { data: currentSupply } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi,
     functionName: 'currentSupply',
   })
 
   // Fetch price from contract
-  const { data: price } = useContractRead({
+  const { data: price } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi,
     functionName: 'PRICE',
@@ -164,11 +159,15 @@ export default function Home() {
 
         {/* Buzzsprout Player */}
         <div className="max-w-[350px] mx-auto">
-          <div id='buzzsprout-large-player'></div>
-          <Script
-            src='https://www.buzzsprout.com/2490108.js?container_id=buzzsprout-large-player&player=large'
-            strategy="afterInteractive"
-          />
+          <iframe
+            src="https://www.buzzsprout.com/2490108?client_source=large_player&iframe=true"
+            width="100%"
+            height="400"
+            frameBorder="0"
+            scrolling="no"
+            title="Alpha Growth Podcast"
+            className="rounded-lg"
+          ></iframe>
         </div>
 
         {/* Social Links */}
@@ -284,7 +283,7 @@ export default function Home() {
                 address: CONTRACT_ADDRESS,
                 abi,
                 functionName: 'mint',
-                args: ["ipfs://placeholder-token-uri"], // Replace with Token URI from Arweave for each NFT
+                args: [TOKEN_URI],
                 value: typeof price === 'bigint' ? price : (typeof price === 'string' || typeof price === 'number') ? BigInt(price) : undefined,
               })}
               disabled={!isStarted || isMinting || timeRemaining === 0}

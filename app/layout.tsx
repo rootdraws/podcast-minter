@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Limited Edition NFT Mint",
   description: "Exclusive NFT collection - only 20 available",
-  generator: 'v0.dev'
+    generator: 'v0.dev'
 }
 
 // Root layout component that wraps the entire application
@@ -35,7 +35,7 @@ export default function RootLayout({
         >
           {/* Web3 Provider for blockchain functionality */}
           <Web3Provider>
-            {children}
+          {children}
           </Web3Provider>
         </ThemeProvider>
       </body>
