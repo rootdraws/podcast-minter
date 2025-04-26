@@ -14,3 +14,5 @@ Process for Each Mint:
 * Update Frontend: Art // Artist Information // Twitter Profile Icon // Link.
 
 All sales go to directly to the wallet of the artist.
+
+<3
