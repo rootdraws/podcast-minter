@@ -13,49 +13,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig, http, useAccount } from 'wagmi';
 import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 
-// WalletConnect Project ID - used for connecting to various wallets
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
-
-if (!projectId) {
-  console.error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set in environment variables');
-  throw new Error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set');
-}
-
-// Only log the project ID in development
-if (process.env.NODE_ENV === 'development') {
-  console.log('WalletConnect Project ID:', projectId);
-}
-
-// Configure default wallets
-const { wallets } = getDefaultWallets({
-  appName: 'Podcast NFT Minter',
-  projectId,
-});
-
-// Set up connectors for the wallets
-const connectors = connectorsForWallets(wallets, {
-  appName: 'Podcast NFT Minter',
-  projectId,
-});
-
-// Create the Wagmi configuration
-const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID;
-
-if (!alchemyApiKey) {
-  console.error('NEXT_PUBLIC_ALCHEMY_ID is not set in environment variables');
-  throw new Error('NEXT_PUBLIC_ALCHEMY_ID is not set');
-}
-
-const config = createConfig({
-  chains: [arbitrum, mainnet, sepolia],
-  transports: {
-    [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
-    [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
-    [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
-  },
-  connectors,
-});
-
 // Initialize React Query client for data fetching
 const queryClient = new QueryClient();
 
@@ -74,10 +31,47 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
 // Wraps the application with necessary Web3 providers
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const [config, setConfig] = React.useState<any>(null);
 
-  if (!mounted) {
-    return null;
+  React.useEffect(() => {
+    setMounted(true);
+    
+    // Only initialize config after mount to ensure environment variables are available
+    const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+    const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+
+    if (!projectId || !alchemyApiKey) {
+      console.error('Missing required environment variables');
+      return;
+    }
+
+    // Configure default wallets
+    const { wallets } = getDefaultWallets({
+      appName: 'Podcast NFT Minter',
+      projectId,
+    });
+
+    // Set up connectors for the wallets
+    const connectors = connectorsForWallets(wallets, {
+      appName: 'Podcast NFT Minter',
+      projectId,
+    });
+
+    const wagmiConfig = createConfig({
+      chains: [arbitrum, mainnet, sepolia],
+      transports: {
+        [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+        [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+        [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
+      },
+      connectors,
+    });
+
+    setConfig(wagmiConfig);
+  }, []);
+
+  if (!mounted || !config) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   return (
