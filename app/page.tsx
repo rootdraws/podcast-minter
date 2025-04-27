@@ -7,7 +7,9 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useState, useRef, useEffect } from "react"
 import Script from 'next/script'
 import { useReadContract, useWriteContract } from 'wagmi'
+import { useWatchContractEvent } from 'wagmi'
 import { CONTRACT_ADDRESS, TOKEN_URI } from '@/config/contract';
+import { QueryClient, useQueryClient } from '@tanstack/react-query'
 
 // Contract ABI
 const abi = [
@@ -56,6 +58,7 @@ const abi = [
 ];
 
 export default function Home() {
+  const queryClient = useQueryClient();
   // Audio state management
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -92,6 +95,53 @@ export default function Home() {
 
   // Start the sale
   const { writeContract: startMint, isPending: isStarting } = useWriteContract();
+
+  // Watch for contract events to refresh data
+  useWatchContractEvent({
+    address: CONTRACT_ADDRESS,
+    abi,
+    eventName: 'SaleStarted',
+    onLogs: () => {
+      // Refresh all contract data when sale starts
+      queryClient.invalidateQueries();
+    },
+  });
+
+  // Watch for mint events
+  useWatchContractEvent({
+    address: CONTRACT_ADDRESS,
+    abi,
+    eventName: 'Transfer',
+    onLogs: (logs) => {
+      console.log('Transfer event received:', logs);
+      // Refresh supply and other data after mint
+      queryClient.invalidateQueries({
+        queryKey: ['readContract', {
+          address: CONTRACT_ADDRESS,
+          abi,
+          functionName: 'currentSupply',
+        }]
+      });
+    },
+  });
+
+  // Also watch for the mint function call
+  useWatchContractEvent({
+    address: CONTRACT_ADDRESS,
+    abi,
+    eventName: 'Minted',
+    onLogs: (logs) => {
+      console.log('Minted event received:', logs);
+      // Refresh supply and other data after mint
+      queryClient.invalidateQueries({
+        queryKey: ['readContract', {
+          address: CONTRACT_ADDRESS,
+          abi,
+          functionName: 'currentSupply',
+        }]
+      });
+    },
+  });
 
   // Mint NFT
   const { writeContract: mint, isPending: isMinting } = useWriteContract();
