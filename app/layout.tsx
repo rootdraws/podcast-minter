@@ -12,9 +12,8 @@ const inter = Inter({ subsets: ["latin"] })
 
 // Metadata for the application
 export const metadata = {
-  title: "Limited Edition NFT Mint",
-  description: "Exclusive NFT collection - only 20 available",
-    generator: 'v0.dev'
+  title: "AlphaGrowth - Just for Fun.",
+  description: "24 Hour NFT Drops, with the best CryptoArtists on 𝕏."
 }
 
 // Root layout component that wraps the entire application
