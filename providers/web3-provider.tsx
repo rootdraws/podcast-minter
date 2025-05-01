@@ -140,13 +140,13 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           // mainnet,
           // arbitrum,
           unichain,
-          sepolia
+          // sepolia
         ],
         transports: {
           // [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
           // [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
           [unichain.id]: http(`https://unichain-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
-          [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
+          // [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
         },
         connectors,
         ssr: true,
