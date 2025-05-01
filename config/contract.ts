@@ -1,5 +1,5 @@
 // Contract configuration
-export const CONTRACT_ADDRESS = '0x0D70EDB990D452787c77a7068ee4B41014331c2F';
+export const CONTRACT_ADDRESS = '0xD4FeD643F317c06b33632ae32E1b7767159be55A';
 
 export const TOKEN_URI = 'https://fgcgiqrgfzaemx5ucq5rhf7kuiabipgyc47ezgyhrwrs2k4g2laa.arweave.net/KYRkQiYuQEZftBQ7E5fqogAUPNgXPkybB42jLSuG0sA/unichainsgt.json'; // SGT
 
