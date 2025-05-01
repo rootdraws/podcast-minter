@@ -199,7 +199,7 @@ export default function Home() {
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-6">
           <Image
-            src="/Minter_Logo.png"
+            src="/Minter_logo.png"
             alt="Logo"
             width={400}
             height={144}
@@ -275,7 +275,7 @@ export default function Home() {
               <div className="border border-redstone-red-light/30 rounded-lg p-4 flex items-center gap-4 bg-redstone-red-dark">
                 <a href="https://x.com/sgt_sl8termelon" target="_blank" rel="noopener noreferrer" className="border border-redstone-red-light/30 rounded-lg overflow-hidden hover:border-redstone-red-medium transition-colors">
                   <Image
-                    src="/SGT_Icon.jpg"
+                    src="/SGT_icon.jpg"
                     alt="SGT Icon"
                     width={150}
                     height={150}
