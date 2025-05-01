@@ -9,8 +9,7 @@ Process for Each Mint:
 * Upload Audio to [BuzzSprout](https://www.buzzsprout.com/).
 * Deploy [NFT Minting Contract](https://github.com/rootdraws/podcast-nft) is for each episode, setting Artist Address.
 * Upload Artwork + Episode to Arweave on [ardrive.io](https://app.ardrive.io/).
-* Update Frontend: Set CONTRACT_ADDRESS to NFT Contract for that Campaign.
-* Update Frontend: MINT Button ARG to include TokenURI Storage.
+* Update Frontend: Config file has updates for CONTRACT_ADDRESS and TokenURI.
 * Update Frontend: Art // Artist Information // Twitter Profile Icon // Link.
 
 All sales go to directly to the wallet of the artist.
