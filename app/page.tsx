@@ -199,7 +199,7 @@ export default function Home() {
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-6">
           <Image
-            src="/minter_logo.png"
+            src="/Minter_Logo.png"
             alt="Logo"
             width={400}
             height={144}

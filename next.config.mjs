@@ -7,7 +7,13 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    domains: ['vercel.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
+    ],
   },
   async headers() {
     return [
@@ -20,7 +26,7 @@ const nextConfig = {
               default-src 'self';
               script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.buzzsprout.com https://*.buzzsprout.com https://*.alchemy.com https://*.walletconnect.com;
               style-src 'self' 'unsafe-inline';
-              img-src 'self' data: https://*.buzzsprout.com https://*.alchemy.com;
+              img-src 'self' data: https://*.vercel.app https://*.buzzsprout.com https://*.alchemy.com blob:;
               connect-src 'self' https://*.buzzsprout.com https://*.alchemy.com https://*.walletconnect.com wss://*.walletconnect.com;
               frame-src 'self' https://www.buzzsprout.com https://*.walletconnect.com;
               font-src 'self';
