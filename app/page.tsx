@@ -186,7 +186,7 @@ export default function Home() {
 
   return (
     // Main container with background color
-    <div className="flex min-h-screen bg-[#e8f4ff]">
+    <div className="flex min-h-screen bg-redstone-red-background">
       {/* Wallet Connection Button */}
       {/* Fixed position in top right corner */}
       <div className="fixed top-0 right-0 p-4 z-50">
@@ -195,28 +195,30 @@ export default function Home() {
 
       {/* Side Panel */}
       {/* Contains logo, episode list, and social links */}
-      <div className="w-[400px] border-r border-[#00a8ff]/20 bg-white text-[#001f3f] p-4 hidden md:block">
+      <div className="w-[400px] border-r border-redstone-red-light/20 bg-redstone-red-dark text-white p-4 hidden md:block">
         {/* Logo Section */}
-        <div className="flex flex-col items-start mb-6">
+        <div className="flex flex-col items-center mb-6">
           <Image
-            src="/AlphaGrowth.png"
+            src="/minter_logo.png"
             alt="Logo"
-            width={180}
-            height={180}
+            width={400}
+            height={144}
             className="mb-4"
+            style={{ objectFit: 'contain' }}
           />
         </div>
 
         {/* Buzzsprout Player */}
         <div className="max-w-[350px] mx-auto">
           <iframe
-            src="https://www.buzzsprout.com/2490108?client_source=large_player&iframe=true"
+            src="https://www.buzzsprout.com/2490108?client_source=large_player&iframe=true&autoplay=true"
             width="100%"
             height="400"
             frameBorder="0"
             scrolling="no"
             title="Alpha Growth Podcast"
             className="rounded-lg"
+            allow="autoplay"
           ></iframe>
         </div>
 
@@ -227,7 +229,7 @@ export default function Home() {
             href="https://x.com/alphagrowth1"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center h-9 w-9 rounded-full border border-[#00a8ff]/20 bg-transparent text-[#001f3f] hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc] transition-colors"
+            className="flex items-center justify-center h-9 w-9 rounded-full border border-redstone-red-light/20 bg-transparent text-white hover:bg-redstone-red-medium hover:text-white hover:border-redstone-red-medium transition-colors"
           >
             <span className="font-serif text-[22px] leading-none">𝕏</span>
             <span className="sr-only">Twitter</span>
@@ -236,7 +238,7 @@ export default function Home() {
             href="https://github.com/rootdraws/podcast-minter"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center h-9 w-9 rounded-full border border-[#00a8ff]/20 bg-transparent text-[#001f3f] hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc] transition-colors"
+            className="flex items-center justify-center h-9 w-9 rounded-full border border-redstone-red-light/20 bg-transparent text-white hover:bg-redstone-red-medium hover:text-white hover:border-redstone-red-medium transition-colors"
           >
             <Github className="w-[22px] h-[22px]" />
             <span className="sr-only">GitHub</span>
@@ -250,14 +252,14 @@ export default function Home() {
         <div className="w-full max-w-4xl mx-auto">
           {/* Title */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-light tracking-widest text-[#001f3f] font-['MEK-Mono']">24 HR OPEN EDITION</h1>
+            <h1 className="text-3xl font-light tracking-widest text-white font-['MEK-Mono']">24 HR OPEN EDITION</h1>
           </div>
 
           {/* NFT Preview */}
-          <div className="border border-[#00a8ff]/30 rounded-lg overflow-hidden mb-8 w-full bg-white">
+          <div className="border border-redstone-red-light/30 rounded-lg overflow-hidden mb-8 w-full bg-redstone-red-dark">
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               <Image
-                src="/art.gif"
+                src="/Sgt_Redstone_720.gif"
                 alt="NFT Art Preview"
                 fill
                 className="object-cover"
@@ -270,35 +272,35 @@ export default function Home() {
           <div className="w-full flex mb-8">
             {/* Left Section - MEK Info */}
             <div className="w-2/3 pr-4">
-              <div className="border border-[#00a8ff]/30 rounded-lg p-4 flex items-center gap-4">
-                <a href="https://x.com/michaelmicasso" target="_blank" rel="noopener noreferrer" className="border border-[#00a8ff]/30 rounded-lg overflow-hidden hover:border-[#0077cc] transition-colors">
+              <div className="border border-redstone-red-light/30 rounded-lg p-4 flex items-center gap-4 bg-redstone-red-dark">
+                <a href="https://x.com/sgt_sl8termelon" target="_blank" rel="noopener noreferrer" className="border border-redstone-red-light/30 rounded-lg overflow-hidden hover:border-redstone-red-medium transition-colors">
                   <Image
-                    src="/MEK Icon.jpg"
-                    alt="MEK Icon"
-                    width={80}
-                    height={80}
+                    src="/SGT_Icon.jpg"
+                    alt="SGT Icon"
+                    width={150}
+                    height={150}
                     className="object-cover"
                   />
                 </a>
-                <div className="font-['MEK-Mono'] text-[#001f3f] space-y-2">
-                  <p>Just for fun, we asked <a href="https://x.com/michaelmicasso" target="_blank" rel="noopener noreferrer" className="text-[#0077cc] hover:underline">MEK.txt</a> for his take on the Arbitrum Logo.</p>
-                  <p>100% of sales go directly to MEK's wallet.</p>
+                <div className="font-['MEK-Mono'] text-white space-y-2">
+                  <p><a href="https://x.com/sgt_sl8termelon" target="_blank" rel="noopener noreferrer" className="text-redstone-red-accent hover:underline">SGT_SL8TERMELON</a> is one of our favorite crypto artists, and we asked for his take on the Redstone Brand.</p>
+                  <p>100% of sales go directly to SGT's wallet.</p>
                 </div>
               </div>
             </div>
 
             {/* Right Section - Price and Supply */}
             <div className="w-1/3 pl-4">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">PRICE</span>
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">{price ? `${Number(price) / 1e18} ETH` : '...'}</span>
+              <div className="space-y-4 bg-redstone-red-dark p-4 rounded-lg border border-redstone-red-light/30">
+                <div className="flex justify-between items-center border-b border-redstone-red-light/30 pb-3">
+                  <span className="text-base font-['MEK-Mono'] text-white/80">PRICE</span>
+                  <span className="text-base font-['MEK-Mono'] text-white">{price ? `${Number(price) / 1e18} ETH` : '...'}</span>
                 </div>
 
-                <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">TIME REMAINING</span>
+                <div className="flex justify-between items-center border-b border-redstone-red-light/30 pb-3">
+                  <span className="text-base font-['MEK-Mono'] text-white/80">TIME REMAINING</span>
                   {saleStart === undefined ? (
-                    <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">Sale Not Started.</span>
+                    <span className="text-base font-['MEK-Mono'] text-white/80">Sale Not Started.</span>
                   ) : Number(saleStart) === 0 ? (
                     <button
                       onClick={() => startMint({
@@ -307,20 +309,20 @@ export default function Home() {
                         functionName: 'start',
                       })}
                       disabled={isStarting}
-                      className="text-base font-['MEK-Mono'] text-[#0077cc] hover:underline disabled:opacity-50"
+                      className="text-base font-['MEK-Mono'] text-redstone-red-accent hover:underline disabled:opacity-50"
                     >
                       {isStarting ? 'STARTING...' : 'START MINT'}
                     </button>
                   ) : (
-                    <span className="text-base font-['MEK-Mono'] text-[#001f3f]">
+                    <span className="text-base font-['MEK-Mono'] text-white">
                       {timeRemaining > 0 ? formatTime(timeRemaining) : 'Sale Ended'}
                     </span>
                   )}
                 </div>
 
-                <div className="flex justify-between items-center border-b border-[#00a8ff]/30 pb-3">
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]/80">TOTAL MINTED</span>
-                  <span className="text-base font-['MEK-Mono'] text-[#001f3f]">{currentSupply?.toString() || 0}</span>
+                <div className="flex justify-between items-center border-b border-redstone-red-light/30 pb-3">
+                  <span className="text-base font-['MEK-Mono'] text-white/80">TOTAL MINTED</span>
+                  <span className="text-base font-['MEK-Mono'] text-white">{currentSupply?.toString() || 0}</span>
                 </div>
               </div>
             </div>
@@ -337,7 +339,7 @@ export default function Home() {
                 value: typeof price === 'bigint' ? price : (typeof price === 'string' || typeof price === 'number') ? BigInt(price) : undefined,
               })}
               disabled={!isStarted || isMinting || timeRemaining === 0}
-              className="relative inline-flex items-center justify-center w-64 bg-[#e8f4ff] text-[#001f3f] rounded-lg h-14 font-['MEK-Mono'] text-lg tracking-widest border border-[#00a8ff]/30 border border-solid transition-colors duration-200 hover:bg-[#0077cc] hover:text-white hover:border-[#0077cc]"
+              className="relative inline-flex items-center justify-center w-64 bg-redstone-red-dark text-white rounded-lg h-14 font-['MEK-Mono'] text-lg tracking-widest border border-redstone-red-light/30 transition-colors duration-200 hover:bg-redstone-red-medium hover:border-redstone-red-medium"
             >
               {isMinting ? 'Minting...' : 'MINT'}
             </button>

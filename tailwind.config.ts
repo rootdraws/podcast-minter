@@ -19,6 +19,21 @@ const config = {
     },
     extend: {
       colors: {
+        // Arbitrum Blue color scheme
+        'arbitrum-blue': {
+          dark: '#001f3f',
+          medium: '#0077cc',
+          light: '#00a8ff',
+          background: '#e8f4ff',
+        },
+        // Redstone Red color scheme
+        'redstone-red': {
+          dark: '#1a0505',    // Deep dark red-black
+          medium: '#cc0000',  // Medium red
+          light: '#ff1a1a',   // Bright red
+          accent: '#ff4d4d',  // Lighter red for highlights
+          background: '#0a0000', // Nearly black with slight red tint
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -13,6 +13,19 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig, http, useAccount } from 'wagmi';
 import { mainnet, arbitrum, sepolia } from 'wagmi/chains';
 
+// Define Unichain
+const unichain = {
+  id: 130,
+  name: 'Unichain',
+  nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://mainnet.unichain.org'] },
+  },
+  blockExplorers: {
+    default: { name: 'UniScan', url: 'https://uniscan.xyz/' },
+  }
+} as const;
+
 // Declare the litConfig property on Window
 declare global {
   interface Window {
@@ -122,10 +135,17 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       });
 
       const wagmiConfig = createConfig({
-        chains: [arbitrum, mainnet, sepolia],
+        // Comment out mainnet and arbitrum, add unichain
+        chains: [
+          // mainnet,
+          // arbitrum,
+          unichain,
+          sepolia
+        ],
         transports: {
-          [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
-          [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+          // [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+          // [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+          [unichain.id]: http(`https://unichain-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
           [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
         },
         connectors,
