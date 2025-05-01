@@ -259,7 +259,7 @@ export default function Home() {
           <div className="border border-redstone-red-light/30 rounded-lg overflow-hidden mb-8 w-full bg-redstone-red-dark">
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               <Image
-                src="/Sgt_Redstone_720.gif"
+                src="/Sgt_Redstone_480.gif"
                 alt="NFT Art Preview"
                 fill
                 className="object-cover"
@@ -283,7 +283,7 @@ export default function Home() {
                   />
                 </a>
                 <div className="font-['MEK-Mono'] text-white space-y-2">
-                  <p><a href="https://x.com/sgt_sl8termelon" target="_blank" rel="noopener noreferrer" className="text-redstone-red-accent hover:underline">SGT_SL8TERMELON</a> is one of our favorite crypto artists, and we asked for his take on the Redstone Brand.</p>
+                  <p>We asked <a href="https://x.com/sgt_sl8termelon" target="_blank" rel="noopener noreferrer" className="text-redstone-red-accent hover:underline">SGT_SL8TERMELON</a> for his take on <a href="https://x.com/redstone_defi" target="_blank" rel="noopener noreferrer" className="text-redstone-red-accent hover:underline">REDSTONE</a>, and this is what he came up with.</p>
                   <p>100% of sales go directly to SGT's wallet.</p>
                 </div>
               </div>
